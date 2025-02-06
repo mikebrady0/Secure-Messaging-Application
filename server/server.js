@@ -88,7 +88,7 @@ app.post('/messages', async (req, res) => {
     try {
         await pool.query(
             'INSERT INTO messages (sender_id, receiver_id, encrypted_message) VALUES ($1, $2, $3)',
-            [senderId, receiverId, encryptMessage]
+            [senderId, receiverId, encryptedMessage]
         );
         res.status(201).json({ success: true});
     } catch (err) {
