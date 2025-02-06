@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [resultMsg, setResultMsg] = useState('');
+
+    const navigate = useNavigate();
+
+    //timeout delay function
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,6 +25,8 @@ const Register = () => {
         });
 
         setResultMsg(`Registration successful User ID: ${response.data.userId}`);
+        await timeout(1000);
+        navigate('/dashboard', { replace: true });
         } catch (err) {
             setResultMsg(err.response?.data?.error || 'Registration failed. Please try again.')
         }
@@ -24,6 +34,7 @@ const Register = () => {
 
     return (
         <div>
+            <button onClick={() => navigate('/', { replace: true})}>Back</button>
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div>

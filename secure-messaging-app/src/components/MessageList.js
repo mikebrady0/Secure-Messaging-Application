@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const MessageList = ({ userId }) => {
 
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -32,6 +35,7 @@ const MessageList = ({ userId }) => {
     }
 
     return (
+        
         <div>
             <h2>Your messages</h2>
             {messages.length === 0 ? (
