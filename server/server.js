@@ -95,7 +95,22 @@ app.post('/messages', async (req, res) => {
         res.status(500).json({ error: 'Failed to send message' });
     };
 })
-
+ // Retrieve messages
 app.get('/messages/:userId', async (req, res) => {
     const { userId } = req.params;
+
+    try {
+        const result = await pool.query(
+            'SELECT * FROM messages WHERE receiver_id = $1 ORDER BY timestamp',
+            [userId]
+        );
+
+        const messages = result.rows.map(row => ({
+            ...row,
+            message: decryptMessage(row.encrypted_message),
+        }));
+        res.json(messages);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve messages'});
+    }
 })
