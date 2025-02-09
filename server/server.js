@@ -125,6 +125,6 @@ app.get('/messages/:userId', async (req, res) => {
         res.json(messages);
     } catch (err) {
         res.status(500).json({ error: 'Failed to retrieve messages'});
-        console.err('Failed to retrieve messages')
+        console.error('Failed to retrieve messages')
     }
 })

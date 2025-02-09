@@ -17,7 +17,6 @@ const Dashboard = () => {
             <div>
                 <h2>Send Message</h2>
                 <button onClick={() => navigate('/messageForm', { replace: true })}>Send Message</button>
-                <button onClick={() => navigate('/massageList', { replace: true })}>Message List</button>
             </div>
         </div>
     );
