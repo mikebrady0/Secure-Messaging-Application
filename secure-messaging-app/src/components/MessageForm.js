@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const MessageForm = ({ senderId }) => {
+    
     const [receiverId, setReceiverId] = useState('');
     const [message, setMessage] = useState('');
 
@@ -11,6 +12,13 @@ const MessageForm = ({ senderId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+        const senderId = storedUser?.id;
+
+        console.log('Sending Message: ', { senderId, receiverId, message});
+
+
+
         if (!receiverId || !message.trim()) {
             alert("PLease complete all fields.");
             return;
@@ -18,7 +26,7 @@ const MessageForm = ({ senderId }) => {
 
         try {
             await axios.post('http://localhost:5000/messages', {
-                senderId,
+                senderId: senderId,
                 receiverId: parseInt(receiverId),
                 message,
             });
@@ -36,7 +44,7 @@ const MessageForm = ({ senderId }) => {
 
 
     return (
-        <div>
+        <div className="message-form">
         <button onClick={() => navigate('/Dashboard', { replace: true})}>Back</button>
         <form onSubmit={handleSubmit}>
             <input

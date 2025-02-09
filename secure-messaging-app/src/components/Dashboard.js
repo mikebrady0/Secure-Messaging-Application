@@ -8,7 +8,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="dashboard">
             <button onClick={() => navigate('/', { replace: true})}>Log Out</button>
             <h1>Dashboard</h1>
             <MessageList userId={userId} />

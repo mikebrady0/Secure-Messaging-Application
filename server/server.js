@@ -96,9 +96,14 @@ app.post('/messages', async (req, res) => {
     const { senderId, receiverId, message } = req.body;
     const encryptedMessage = encryptMessage(message);
 
+    if (!senderId) {
+        console.error('No senderId found');
+        return res.status(400).json({ error: 'senderId not found'});
+    }
+
     try {
         await pool.query(
-            'INSERT INTO messages (sender_id, receiver_id, encrypted_message, timestamp) VALUES ($1, $2, $3)',
+            'INSERT INTO messages (sender_id, receiver_id, encrypted_message, timestamp) VALUES ($1, $2, $3, NOW())',
             [senderId, receiverId, encryptedMessage]
         );
         res.status(201).json({ success: true});

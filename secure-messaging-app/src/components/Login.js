@@ -6,6 +6,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [resultMsg, setResultMsg] = useState('');
+    const [currentUser, setCurrentUser] = useState(null);
 
     const navigate = useNavigate();
 
@@ -22,10 +23,14 @@ const Login = () => {
                 username,
                 password
             });
+            
+            const userData = { id: response.data.userId, username};
+            setCurrentUser(userData);
+            localStorage.setItem('currentUser', JSON.stringify({ id: response.data.userId, username }));
 
             setResultMsg(`Login Successful. User ID: ${response.data.userId}`);
             console.log('Login Successful')
-            localStorage.setItem('userId', response.data.userId);
+
             await timeout(1000);
             navigate('/dashboard', { replace: true });
         } catch (err) {
@@ -34,7 +39,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="aut-form">
             <button onClick={() => navigate('/', { replace: true})}>Back</button>
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
